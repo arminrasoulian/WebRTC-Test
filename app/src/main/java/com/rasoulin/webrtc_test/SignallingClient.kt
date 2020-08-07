@@ -4,12 +4,9 @@ import android.util.Log
 import com.google.gson.internal.LinkedTreeMap
 import com.microsoft.signalr.HubConnection
 import com.microsoft.signalr.HubConnectionBuilder
-import com.microsoft.signalr.HubConnectionState
 import io.reactivex.Single
-import org.json.JSONObject
 import org.webrtc.MediaStream
 import java.util.*
-import kotlin.concurrent.thread
 
 data class ConnectionInfo(
     val item1: String, // connectionId
@@ -178,7 +175,6 @@ object SignallingClient {
     fun sendVideoCallRequest(destinationConnectionId: String, request: LinkedTreeMap<*, *>) {
         val state = hubConnection.connectionState
         Log.d("SendVideoCallReqCalled", request.toString())
-        //val jsonString = request.toString()
 
         hubConnection.send("SendVideoCallRequest", destinationConnectionId, request)
     }
@@ -186,67 +182,6 @@ object SignallingClient {
     fun call(destinationConnectionId: String) {
         hubConnection.send("Call", destinationConnectionId)
     }
-
-   /* private fun emitInitStatement(message: String) {
-        Log.d(
-            "SignallingClient",
-            "emitInitStatement() called with: event = [create or join], message = [$message]"
-        )
-        // Todo: send message through signalR
-
-        hubConnection.send("create or join", message)
-        //socket.emit("create or join", message)
-    }
-
-
-
-      fun emitMessage(message: String) {
-        Log.d(
-            "SignallingClient",
-            "emitMessage() called with: message = [$message]"
-        )
-        // Todo: send message through signalR
-        //socket.emit("message", message)
-    }
-
-    fun emitMessage(message: SessionDescription) {
-        try {
-            Log.d(
-                "SignallingClient",
-                "emitMessage() called with: message = [$message]"
-            )
-            val obj = JSONObject()
-            obj.put("type", message.type.canonicalForm())
-            obj.put("sdp", message.description)
-            Log.d("emitMessage", obj.toString())
-            // Todo: send message through signalR
-            //socket.emit("message", obj)
-            Log.d("vivek1794", obj.toString())
-        } catch (e: JSONException) {
-            e.printStackTrace()
-        }
-    }
-
-    fun emitIceCandidate(iceCandidate: IceCandidate) {
-        try {
-            val jsonObject = JSONObject()
-            jsonObject.put("type", "candidate")
-            jsonObject.put("label", iceCandidate.sdpMLineIndex)
-            jsonObject.put("id", iceCandidate.sdpMid)
-            jsonObject.put("candidate", iceCandidate.sdp)
-            // Todo: send message through signalR
-            //socket.emit("message", `object`)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
-
-    fun close() {
-        // Todo: disconnect signalR
-//        socket.emit("bye", roomName)
-//        socket.disconnect()
-//        socket.close()
-    } */
 
     interface SignalingInterface {
         fun error(message: String)

@@ -21,25 +21,25 @@ class MainActivity : AppCompatActivity(), SignallingClient.SignalingInterface,
     View.OnClickListener {
     private var visitConnections: Array<ConnectedPhysicianPatientInformation>? = null
 
-    var peerConnectionFactory: PeerConnectionFactory? = null
-    var audioConstraints: MediaConstraints? = null
-    var videoConstraints: MediaConstraints? = null
+    private var peerConnectionFactory: PeerConnectionFactory? = null
+    private var audioConstraints: MediaConstraints? = null
+    private var videoConstraints: MediaConstraints? = null
 
     // This variable will be used when we want to add acceptCall button
     var sdpConstraints: MediaConstraints? = null
-    var videoSource: VideoSource? = null
-    var localVideoTrack: VideoTrack? = null
-    var audioSource: AudioSource? = null
-    var localAudioTrack: AudioTrack? = null
+    private var videoSource: VideoSource? = null
+    private var localVideoTrack: VideoTrack? = null
+    private var audioSource: AudioSource? = null
+    private var localAudioTrack: AudioTrack? = null
 
-    var localVideoView: SurfaceViewRenderer? = null
+    private var localVideoView: SurfaceViewRenderer? = null
     var remoteVideoView: SurfaceViewRenderer? = null
 
-    var hangup: Button? = null
+    private var hangup: Button? = null
     var localPeer: PeerConnection? = null
-    var rootEglBase: EglBase? = null
+    private var rootEglBase: EglBase? = null
 
-    var gotUserMedia: Boolean = false
+    private var gotUserMedia: Boolean = false
 
     var destinationConnection: ConnectedPhysicianPatientInformation? = null
 
@@ -252,8 +252,8 @@ class MainActivity : AppCompatActivity(), SignallingClient.SignalingInterface,
         runOnUiThread {
             var params = localVideoView!!.layoutParams
             if (remoteVisible) {
-                params.height = dpToPx(100)
-                params.width = dpToPx(100)
+                params.height = 100.dpToPx()
+                params.width = 100.dpToPx()
             } else {
                 params = FrameLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT,
@@ -379,8 +379,8 @@ class MainActivity : AppCompatActivity(), SignallingClient.SignalingInterface,
     /**
      * Util Methods
      */
-    private fun dpToPx(dp: Int): Int {
+    private fun Int.dpToPx(): Int {
         val displayMetrics = resources.displayMetrics
-        return (dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT)).roundToInt()
+        return (this * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT)).roundToInt()
     }
 }
